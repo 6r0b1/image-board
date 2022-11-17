@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Image Board</title>
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <script
@@ -11,5 +12,18 @@
             type="module"
             crossorigin="use-credentials"
         ></script>
+<header>
+
+</header>
+<div id="results_galery">
+<section id="results_galery"  >
+
+<div class="galery_card" v-for="image of images">
+    <img class="galery_image" :src="image.url" alt="">
+    <p class="galery_caption">{{image.description}}</p>
+</div>
+
+</section>
+</div>
     </body>
 </html>

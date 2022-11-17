@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    width: 100vw;
+}
+
+#results_container {
+    width: 100 vw;
+}
+
+#results_galery {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100 vw;
+    flex-wrap: wrap;
+}
+
+.galery_card {
+    width: 400px;
+    height: 300px;
+    margin: 5px;
+    padding: 10px;
+    background-color: hotpink;
+}
+
+.galery_image {
+    width: 300px;
+}
