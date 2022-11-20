@@ -6,11 +6,32 @@ Vue.createApp({
             headline: "My fancy image board",
             headlineCss: "headlineClass",
             images: [],
+            message: "",
+            photo: "",
+            title: "",
+            description: "",
+            username: "",
             firstName: "",
             count: 0,
         };
     },
-    methods: {},
+    methods: {
+        uploadImage: function (e) {
+            e.preventDefault();
+            console.log("klick");
+            const image = document.querySelector("input[type=file]").files[0];
+            const formData = new FormData();
+
+            formData.append("image", image);
+            // formData.append("title", title);
+            // formData.append("description", description);
+            // formData.append("username", username);
+            fetch("/images", {
+                method: "POST",
+                body: formData,
+            });
+        },
+    },
     mounted() {
         fetch("/images")
             .then((res) => res.json())
@@ -18,4 +39,4 @@ Vue.createApp({
                 this.images = images;
             });
     },
-}).mount("#results_galery");
+}).mount("#main");

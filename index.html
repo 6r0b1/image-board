@@ -4,26 +4,57 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Image Board</title>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/style.css" />
     </head>
-    <body>
+    <body id="main">
         <script
             src="/js/app.js"
             type="module"
             crossorigin="use-credentials"
         ></script>
-<header>
-
-</header>
-<div id="results_galery">
-<section id="results_galery"  >
-
-<div class="galery_card" v-for="image of images">
-    <img class="galery_image" :src="image.url" alt="">
-    <p class="galery_caption">{{image.description}}</p>
-</div>
-
-</section>
-</div>
+        <header></header>
+        <form
+            method="post"
+            enctype="multipart/form-data"
+            @submit.prevent="onFormSubmit"
+        >
+            <input
+                type="text"
+                name="title"
+                v-model="title"
+                id=""
+                placeholder="Title"
+            />
+            <input
+                type="text"
+                name="description"
+                v-model="description"
+                id=""
+                placeholder="Description"
+            />
+            <input
+                type="text"
+                v-model="username"
+                name="username"
+                id=""
+                placeholder="Username"
+            />
+            <label for="file">File</label>
+            <input
+                type="file"
+                name="image"
+                id=""
+                accept="image/png, image/jpeg"
+            />
+            <input type="submit" @click="uploadImage" value="Upload" />
+        </form>
+        <div id="results_galery">
+            <section id="results_galery">
+                <div class="galery_card" v-for="image of images">
+                    <img class="galery_image" :src="image.url" alt="" />
+                    <p class="galery_caption">{{image.description}}</p>
+                </div>
+            </section>
+        </div>
     </body>
 </html>
