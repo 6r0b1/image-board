@@ -18,6 +18,15 @@ function getImages() {
     // .then((result) => console.log(result[0].id));
 }
 
+function addImages({ url, username, title, description }) {
+    return db.query(
+        `INSERT INTO images (url, username, title, description) VALUES ($1, $2, $3, $4) 
+        RETURNING *`,
+        [url, username, title, description]
+    );
+}
+
 module.exports = {
+    addImages,
     getImages,
 };

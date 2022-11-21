@@ -14,6 +14,7 @@
         ></script>
         <header></header>
         <form
+            id="upload-form"
             method="post"
             enctype="multipart/form-data"
             @submit.prevent="onFormSubmit"
@@ -42,6 +43,7 @@
             <label for="file">File</label>
             <input
                 type="file"
+                v-model="image"
                 name="image"
                 id=""
                 accept="image/png, image/jpeg"

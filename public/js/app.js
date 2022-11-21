@@ -1,3 +1,4 @@
+// import addImages as addImages from "./db.js";
 import * as Vue from "./vue.js";
 
 Vue.createApp({
@@ -18,18 +19,16 @@ Vue.createApp({
     methods: {
         uploadImage: function (e) {
             e.preventDefault();
-            console.log("klick");
-            const image = document.querySelector("input[type=file]").files[0];
-            const formData = new FormData();
-
-            formData.append("image", image);
-            // formData.append("title", title);
-            // formData.append("description", description);
-            // formData.append("username", username);
+            const upload = document.querySelector("#upload-form");
+            const formData = new FormData(upload);
             fetch("/images", {
                 method: "POST",
                 body: formData,
-            });
+            })
+                .then((res) => res.json())
+                .then((result) => {
+                    this.images.unshift(result);
+                });
         },
     },
     mounted() {

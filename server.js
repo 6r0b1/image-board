@@ -8,7 +8,7 @@ const fs = require("fs");
 
 // Setup database
 
-const { getImages } = require("./db");
+const { getImages, addImages } = require("./db");
 
 // Setup S3
 
@@ -34,8 +34,10 @@ app.get("/images", (req, res) => {
 });
 
 app.post("/images", uploader.single("image"), (req, res) => {
-    console.log(req.file);
+    console.log(req);
     const { filename, mimetype, size, path } = req.file;
+
+    // document.querySelector("#upload-form").image.files[0];
 
     const promise = s3
         .putObject({
@@ -50,7 +52,18 @@ app.post("/images", uploader.single("image"), (req, res) => {
 
     promise
         .then(() => {
-            console.log("success");
+            addImages({
+                url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
+                username: req.body.username,
+                title: req.body.title,
+                description: req.body.description,
+            });
+            res.json({
+                url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
+                username: req.body.username,
+                title: req.body.title,
+                description: req.body.description,
+            });
         })
         .catch((err) => {
             console.log(err);
