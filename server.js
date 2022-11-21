@@ -57,7 +57,7 @@ app.post("/images", uploader.single("image"), (req, res) => {
                 username: req.body.username,
                 title: req.body.title,
                 description: req.body.description,
-            });
+            }).then;
             res.json({
                 url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
                 username: req.body.username,

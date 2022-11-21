@@ -32,13 +32,13 @@ module.exports.uploader = multer({
 //     secretAccessKey: process.env.AWS_SECRET,
 // });
 
-// module.exports.promise = s3
-//     .putObject({
+// module.exports.s3Upload = upload((filename, path, mimetype, size) => {
+//     s3.putObject({
 //         Bucket: "spicedling",
 //         ACL: "public-read",
 //         Key: filename,
 //         Body: fs.createReadStream(path),
 //         ContentType: mimetype,
 //         ContentLength: size,
-//     })
-//     .promise();
+//     }).then(() => {});
+// });

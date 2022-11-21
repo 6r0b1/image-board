@@ -12,6 +12,7 @@
             type="module"
             crossorigin="use-credentials"
         ></script>
+
         <header></header>
         <form
             id="upload-form"
@@ -50,10 +51,23 @@
             />
             <input type="submit" @click="uploadImage" value="Upload" />
         </form>
+        <image-modal
+            v-if="modal"
+            v-bind:url="modalURL"
+            v-bind:title="modalTitle"
+            v-bind:description="modalDescription"
+            v-on:closed="closeModal"
+        ></image-modal>
         <div id="results_galery">
             <section id="results_galery">
                 <div class="galery_card" v-for="image of images">
-                    <img class="galery_image" :src="image.url" alt="" />
+                    <img
+                        v-on:click="openModal"
+                        class="galery_image"
+                        :src="image.url"
+                        alt=""
+                        v-bind:url="image.url"
+                    />
                     <p class="galery_caption">{{image.description}}</p>
                 </div>
             </section>
