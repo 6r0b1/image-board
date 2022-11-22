@@ -2,6 +2,7 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
 require("dotenv").config();
+const fs = require("fs");
 
 // Setup image upload
 
@@ -25,20 +26,21 @@ module.exports.uploader = multer({
 
 // Setup S3
 
-// const aws = require("aws-sdk");
+const aws = require("aws-sdk");
 
-// const s3 = new aws.S3({
-//     accessKeyId: process.env.AWS_KEY,
-//     secretAccessKey: process.env.AWS_SECRET,
-// });
+const s3 = new aws.S3({
+    accessKeyId: process.env.AWS_KEY,
+    secretAccessKey: process.env.AWS_SECRET,
+});
 
-// module.exports.s3Upload = upload((filename, path, mimetype, size) => {
-//     s3.putObject({
-//         Bucket: "spicedling",
-//         ACL: "public-read",
-//         Key: filename,
-//         Body: fs.createReadStream(path),
-//         ContentType: mimetype,
-//         ContentLength: size,
-//     }).then(() => {});
-// });
+module.exports.awsUpload = function (filename, path, mimetype, size) {
+    console.log(path);
+    s3.putObject({
+        Bucket: "spicedling",
+        ACL: "public-read",
+        Key: filename,
+        Body: fs.createReadStream(path),
+        ContentType: mimetype,
+        ContentLength: size,
+    });
+};

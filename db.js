@@ -14,15 +14,15 @@ const db = spicedPg(
 // Write entry
 // Signing a petition
 function getImages() {
-    return db.query(`SELECT * FROM images`);
+    return db.query(`SELECT * FROM images ORDER BY id DESC`);
     // .then((result) => console.log(result[0].id));
 }
 
-function addImages({ url, username, title, description }) {
+function addImages({ url, username, title, description, created_at }) {
     return db.query(
-        `INSERT INTO images (url, username, title, description) VALUES ($1, $2, $3, $4) 
+        `INSERT INTO images (url, username, title, description, created_at) VALUES ($1, $2, $3, $4, $5) 
         RETURNING *`,
-        [url, username, title, description]
+        [url, username, title, description, created_at]
     );
 }
 

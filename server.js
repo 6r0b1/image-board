@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const { PORT = 8080 } = process.env;
-const { uploader } = require("./middleware");
+const { uploader, awsUpload } = require("./middleware");
 const fs = require("fs");
 
 // Setup database
@@ -39,6 +39,8 @@ app.post("/images", uploader.single("image"), (req, res) => {
 
     // document.querySelector("#upload-form").image.files[0];
 
+    // awsUpload(filename, mimetype, size, path)
+
     const promise = s3
         .putObject({
             Bucket: "spicedling",
@@ -57,7 +59,7 @@ app.post("/images", uploader.single("image"), (req, res) => {
                 username: req.body.username,
                 title: req.body.title,
                 description: req.body.description,
-            }).then;
+            });
             res.json({
                 url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
                 username: req.body.username,
