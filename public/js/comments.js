@@ -13,17 +13,19 @@ const comments = {
             console.log(e.target[0].value);
             const form = e.currentTarget;
             const body = {
+                image_id: this.image_id,
                 commenter: form.querySelector('[name="commenter"]').value,
                 comment: form.querySelector('[name="comment"]').value,
             };
             fetch("/comments", {
                 method: "post",
-                body: { commenter: e.target[0].value },
+                body: JSON.stringify(body),
+                headers: { "Content-Type": "application/json" },
             });
         },
     },
     mounted() {
-        fetch(`/images/${this.image_id}`)
+        fetch(`images/${this.image_id}`)
             .then((res) => res.json())
             .then((comments) => {
                 this.comments = comments;

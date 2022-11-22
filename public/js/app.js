@@ -26,6 +26,8 @@ Vue.createApp({
             modalURL: "",
             modalTitle: "",
             modalDescription: "",
+            prev: false,
+            next: true,
         };
     },
     methods: {
@@ -61,18 +63,28 @@ Vue.createApp({
             });
         },
         loadNext: function (e) {
+            this.prev = true;
             let lastImageID = this.images[this.images.length - 1].id;
             fetch(`next/${lastImageID}`)
                 .then((res) => res.json())
                 .then((images) => {
+                    console.log(images);
+                    if (images.length < 6) {
+                        this.next = false;
+                    }
                     this.images = images;
                 });
         },
         loadPrevious: function (e) {
             let firstImageID = this.images[0].id;
-            fetch(`next/${firstImageID}`)
+            console.log(firstImageID);
+            fetch(`prev/${firstImageID}`)
                 .then((res) => res.json())
                 .then((images) => {
+                    console.log(images);
+                    if (images.length < 6) {
+                        this.prev = false;
+                    }
                     this.images = images;
                 });
         },

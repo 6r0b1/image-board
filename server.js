@@ -9,6 +9,7 @@ const fs = require("fs");
 // Setup database
 
 const {
+    addComment,
     getPrevImages,
     getImages,
     addImages,
@@ -75,13 +76,14 @@ app.post("/images", uploader.single("image"), (req, res) => {
 
 app.get("/images/:image_id", (req, res) => {
     getCommentsByImageId(req.params.image_id).then((result) => {
+        console.log(result);
         res.json(result.rows);
     });
 });
 
 app.get("/prev/:firstImageID", (req, res) => {
     let firstID = req.params.firstImageID;
-    getPrevImages(firstIDprev).then((result) => {
+    getPrevImages(firstID).then((result) => {
         res.json(result.rows);
     });
 });
@@ -94,7 +96,8 @@ app.get("/next/:lastImageID", (req, res) => {
 });
 
 app.post("/comments", (req, res) => {
-    console.log(req);
+    let comment = req.body;
+    addComment(comment);
     res.send("ok");
 });
 

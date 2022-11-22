@@ -38,11 +38,20 @@ function addImages({ url, username, title, description, created_at }) {
     );
 }
 
-function getCommentsByImageId({ image_id }) {
+function getCommentsByImageId(image_id) {
     return db.query(`SELECT * FROM comments WHERE image_id=$1`, [image_id]);
 }
 
+function addComment({ image_id, commenter, comment }) {
+    return db.query(
+        `INSERT INTO comments (image_id, commenter, comment) VALUES ($1, $2, $3) 
+        RETURNING *`,
+        [image_id, commenter, comment]
+    );
+}
+
 module.exports = {
+    addComment,
     getPrevImages,
     getNextImages,
     addImages,

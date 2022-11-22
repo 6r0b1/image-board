@@ -74,8 +74,8 @@
             </section>
         </div>
         <div>
-            <p v-on:click="loadPrevious">prev</p>
-            <p v-on:click="loadNext">next</p>
+            <p v-if="prev" v-on:click="loadPrevious">prev</p>
+            <p v-if="next" v-on:click="loadNext">next</p>
         </div>
     </body>
 </html>
