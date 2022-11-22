@@ -1,9 +1,11 @@
 import { imageModal } from "./imageModal.js";
+import { comments } from "./comments.js";
 import * as Vue from "./vue.js";
 
 Vue.createApp({
     components: {
         "image-modal": imageModal,
+        comments: comments,
     },
     data() {
         return {
@@ -57,6 +59,22 @@ Vue.createApp({
                         this.images = images;
                     });
             });
+        },
+        loadNext: function (e) {
+            let lastImageID = this.images[this.images.length - 1].id;
+            fetch(`next/${lastImageID}`)
+                .then((res) => res.json())
+                .then((images) => {
+                    this.images = images;
+                });
+        },
+        loadPrevious: function (e) {
+            let firstImageID = this.images[0].id;
+            fetch(`next/${firstImageID}`)
+                .then((res) => res.json())
+                .then((images) => {
+                    this.images = images;
+                });
         },
     },
     mounted() {

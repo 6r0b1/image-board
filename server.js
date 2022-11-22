@@ -8,7 +8,13 @@ const fs = require("fs");
 
 // Setup database
 
-const { getImages, addImages } = require("./db");
+const {
+    getPrevImages,
+    getImages,
+    addImages,
+    getCommentsByImageId,
+    getNextImages,
+} = require("./db");
 
 // Setup S3
 
@@ -65,6 +71,31 @@ app.post("/images", uploader.single("image"), (req, res) => {
         .catch((err) => {
             console.log(err);
         });
+});
+
+app.get("/images/:image_id", (req, res) => {
+    getCommentsByImageId(req.params.image_id).then((result) => {
+        res.json(result.rows);
+    });
+});
+
+app.get("/prev/:firstImageID", (req, res) => {
+    let firstID = req.params.firstImageID;
+    getPrevImages(firstIDprev).then((result) => {
+        res.json(result.rows);
+    });
+});
+
+app.get("/next/:lastImageID", (req, res) => {
+    let lastID = req.params.lastImageID;
+    getNextImages(lastID).then((result) => {
+        res.json(result.rows);
+    });
+});
+
+app.post("/comments", (req, res) => {
+    console.log(req);
+    res.send("ok");
 });
 
 app.get("*", (req, res) => {

@@ -53,6 +53,7 @@
         </form>
         <image-modal
             v-if="modal"
+            v-bind:id="modalID"
             v-bind:url="modalURL"
             v-bind:title="modalTitle"
             v-bind:description="modalDescription"
@@ -71,6 +72,10 @@
                     <p class="galery_caption">{{image.description}}</p>
                 </div>
             </section>
+        </div>
+        <div>
+            <p v-on:click="loadPrevious">prev</p>
+            <p v-on:click="loadNext">next</p>
         </div>
     </body>
 </html>

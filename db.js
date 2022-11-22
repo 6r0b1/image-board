@@ -11,11 +11,23 @@ const db = spicedPg(
 
 //  ++++++++++++++ END setup modules
 
-// Write entry
-// Signing a petition
 function getImages() {
-    return db.query(`SELECT * FROM images ORDER BY id DESC`);
+    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 6`);
     // .then((result) => console.log(result[0].id));
+}
+
+function getPrevImages(firstImageID) {
+    return db.query(
+        `SELECT * FROM images WHERE id > $1 ORDER BY id DESC LIMIT 6`,
+        [firstImageID]
+    );
+}
+
+function getNextImages(lastImageID) {
+    return db.query(
+        `SELECT * FROM images WHERE id < $1 ORDER BY id DESC LIMIT 6`,
+        [lastImageID]
+    );
 }
 
 function addImages({ url, username, title, description, created_at }) {
@@ -26,7 +38,14 @@ function addImages({ url, username, title, description, created_at }) {
     );
 }
 
+function getCommentsByImageId({ image_id }) {
+    return db.query(`SELECT * FROM comments WHERE image_id=$1`, [image_id]);
+}
+
 module.exports = {
+    getPrevImages,
+    getNextImages,
     addImages,
     getImages,
+    getCommentsByImageId,
 };
