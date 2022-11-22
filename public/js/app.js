@@ -50,11 +50,13 @@ Vue.createApp({
             fetch("/images", {
                 method: "POST",
                 body: formData,
-            })
-                .then((res) => res.json())
-                .then((result) => {
-                    this.images.unshift(result);
-                });
+            }).then(() => {
+                fetch("/images")
+                    .then((res) => res.json())
+                    .then((images) => {
+                        this.images = images;
+                    });
+            });
         },
     },
     mounted() {
