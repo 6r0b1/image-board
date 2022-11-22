@@ -21,7 +21,12 @@ const comments = {
                 method: "post",
                 body: JSON.stringify(body),
                 headers: { "Content-Type": "application/json" },
-            });
+            })
+                .then((res) => res.json())
+                .then((newComment) => {
+                    console.log(newComment);
+                    this.comments.unshift(newComment);
+                });
         },
     },
     mounted() {

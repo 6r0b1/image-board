@@ -97,8 +97,10 @@ app.get("/next/:lastImageID", (req, res) => {
 
 app.post("/comments", (req, res) => {
     let comment = req.body;
-    addComment(comment);
-    res.send("ok");
+    addComment(comment).then((result) => {
+        console.log(result);
+        res.json(result.rows[0]);
+    });
 });
 
 app.get("*", (req, res) => {

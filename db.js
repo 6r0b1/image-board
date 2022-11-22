@@ -39,7 +39,10 @@ function addImages({ url, username, title, description, created_at }) {
 }
 
 function getCommentsByImageId(image_id) {
-    return db.query(`SELECT * FROM comments WHERE image_id=$1`, [image_id]);
+    return db.query(
+        `SELECT * FROM comments WHERE image_id=$1 ORDER BY id DESC`,
+        [image_id]
+    );
 }
 
 function addComment({ image_id, commenter, comment }) {
