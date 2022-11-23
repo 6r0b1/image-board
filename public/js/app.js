@@ -28,6 +28,7 @@ Vue.createApp({
             modalDescription: "",
             prev: false,
             next: true,
+            preventScroll: "",
         };
     },
     methods: {
@@ -41,11 +42,14 @@ Vue.createApp({
                     this.modalDescription = this.images[i].description;
                 }
             }
-            this.modal = true;
+            this.modal = this.modalID;
+            this.preventScroll = "prevent_scroll";
+            // history.pushState(null, "", `/image/${this.modalID}`);
         },
         closeModal: function (e) {
             this.modal = false;
-            console.log(this.modal);
+            this.preventScroll = "";
+            // history.pushState(null, "", `/`);
         },
         uploadImage: function (e) {
             e.preventDefault();
@@ -68,8 +72,7 @@ Vue.createApp({
             fetch(`next/${lastImageID}`)
                 .then((res) => res.json())
                 .then((images) => {
-                    console.log(images);
-                    if (images.length < 6) {
+                    if (images[images.length - 1].id === images[0].lowestId) {
                         this.next = false;
                     }
                     this.images = images;
@@ -81,11 +84,11 @@ Vue.createApp({
             fetch(`prev/${firstImageID}`)
                 .then((res) => res.json())
                 .then((images) => {
-                    console.log(images);
-                    if (images.length < 6) {
+                    if (images[images.length - 1].id === images[0].highestId) {
                         this.prev = false;
                     }
-                    this.images = images;
+                    this.images = images.reverse();
+                    this.next = true;
                 });
         },
     },
