@@ -9,14 +9,22 @@ body {
     width: 100vw;
 }
 
+.prevent_scroll {
+    height: 100vh;
+    overflow: hidden;
+}
+
 header {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    height: 10vh;
     padding: 25px;
     background-color: #fff;
+}
+
+#upload {
+    display: inline-block;
 }
 
 h1 {
@@ -25,11 +33,21 @@ h1 {
 }
 h3 {
     display: inline-block;
-    margin: 0 10px;
+    margin: 10px;
 }
 
-input {
-    margin: 0 10px;
+.input_text {
+    margin: 5px 10px;
+    padding: 0 5px;
+}
+
+.input_button {
+    margin: 5px 10px;
+    padding: 0;
+}
+
+.send_button {
+    margin: 5px 10px;
     padding: 0 5px;
 }
 
@@ -40,11 +58,9 @@ input {
 }
 
 #results_galery {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    max-width: 1230px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* max-width: 1230px; */
 }
 
 .galery_card {
@@ -73,10 +89,28 @@ input {
     display: flex;
     flex-direction: column;
     width: 90vw;
-    height: 90%vh;
+    max-width: 1400px;
+    max-height: 95vh;
     padding: 25px;
     border-radius: 5px;
-    background-color: aqua;
+    background-color: #fff;
+}
+
+.lightbox_image {
+    width: 100%;
+}
+
+.description {
+    margin: 0 10px;
+}
+
+.comment {
+    margin: 10px;
+}
+
+.overflow {
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .galery_image {
@@ -89,5 +123,37 @@ input {
     margin: 5px;
 }
 
-.modal_image {
-    width}
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 10vh;
+    padding: 25px;
+    background-color: #fff;
+}
+
+.pagination_button {
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+}
+
+.close_button {
+    width: 30px;
+    height: 30px;
+    margin: 0 0 10px 0;
+}
+
+@media only screen and (max-width: 1230px) {
+    #results_galery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 820px) {
+    #results_galery {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}

@@ -39,13 +39,15 @@ const comments = {
     },
     template: `<div>
         <form @submit="postComment">
-            <input type="text" name="commenter" placeholder="username" />
-            <input type="text" name="comment" placeholder="Your Comment" />
-            <button type="submit" >Comment</button>
+            <input class="input_text" type="text" name="commenter" placeholder="username" />
+            <input class="input_text" type="text" name="comment" placeholder="Your Comment" />
+            <button class="send_button" type="submit" >Comment</button>
         </form>
     </div>
-    <div v-for="comment of comments">
-        <p>User: {{comment.commenter}}</p>
-        <p>Message: {{comment.comment}}</p>
+    <div >
+        <div class="comment" v-for="comment of comments">
+            <p>User: {{comment.commenter}}</p>
+            <p>Message: {{comment.comment}}</p>
+        </div>
     </div>`,
 };

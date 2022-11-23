@@ -83,6 +83,7 @@ app.get("/images/:image_id", (req, res) => {
 
 app.get("/prev/:firstImageID", (req, res) => {
     let firstID = req.params.firstImageID;
+    console.log(firstID);
     getPrevImages(firstID).then((result) => {
         res.json(result.rows);
     });

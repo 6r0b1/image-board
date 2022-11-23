@@ -7,75 +7,107 @@
         <link rel="stylesheet" href="/style.css" />
     </head>
     <body id="main">
-        <script
-            src="/js/app.js"
-            type="module"
-            crossorigin="use-credentials"
-        ></script>
+        <div :class="preventScroll">
+            <script
+                src="/js/app.js"
+                type="module"
+                crossorigin="use-credentials"
+            ></script>
 
-        <header></header>
-        <form
-            id="upload-form"
-            method="post"
-            enctype="multipart/form-data"
-            @submit.prevent="onFormSubmit"
-        >
-            <input
-                type="text"
-                name="title"
-                v-model="title"
-                id=""
-                placeholder="Title"
-            />
-            <input
-                type="text"
-                name="description"
-                v-model="description"
-                id=""
-                placeholder="Description"
-            />
-            <input
-                type="text"
-                v-model="username"
-                name="username"
-                id=""
-                placeholder="Username"
-            />
-            <label for="file">File</label>
-            <input
-                type="file"
-                v-model="image"
-                name="image"
-                id=""
-                accept="image/png, image/jpeg"
-            />
-            <input type="submit" @click="uploadImage" value="Upload" />
-        </form>
-        <image-modal
-            v-if="modal"
-            v-bind:id="modalID"
-            v-bind:url="modalURL"
-            v-bind:title="modalTitle"
-            v-bind:description="modalDescription"
-            v-on:closed="closeModal"
-        ></image-modal>
-        <div id="results_galery">
-            <section id="results_galery">
-                <div class="galery_card" v-for="image of images">
-                    <img
-                        v-on:click="openModal"
-                        class="galery_image"
-                        :src="image.url"
-                        alt=""
-                        v-bind:url="image.url"
-                    />
-                    <p class="galery_caption">{{image.description}}</p>
+            <header>
+                <h1>Fancy Image Board</h1>
+                <div id="upload">
+                    <h3>Add Yours:</h3>
+                    <form
+                        id="upload-form"
+                        method="post"
+                        enctype="multipart/form-data"
+                        @submit.prevent="onFormSubmit"
+                    >
+                        <div>
+                            <input
+                                class="input_text"
+                                type="text"
+                                name="title"
+                                v-model="title"
+                                id=""
+                                placeholder="Title"
+                            />
+                            <input
+                                class="input_text"
+                                type="text"
+                                name="description"
+                                v-model="description"
+                                id=""
+                                placeholder="Description"
+                            />
+                            <input
+                                class="input_text"
+                                type="text"
+                                v-model="username"
+                                name="username"
+                                id=""
+                                placeholder="Username"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                class="input_button"
+                                type="file"
+                                v-model="image"
+                                name="image"
+                                id=""
+                                accept="image/png, image/jpeg"
+                            />
+                            <input
+                                class="send_button"
+                                type="submit"
+                                @click="uploadImage"
+                                value="Upload"
+                            />
+                        </div>
+                    </form>
                 </div>
-            </section>
-        </div>
-        <div>
-            <p v-if="prev" v-on:click="loadPrevious">prev</p>
-            <p v-if="next" v-on:click="loadNext">next</p>
+            </header>
+
+            <image-modal
+                v-if="modal"
+                v-bind:id="modalID"
+                v-bind:url="modalURL"
+                v-bind:title="modalTitle"
+                v-bind:description="modalDescription"
+                v-on:closed="closeModal"
+            ></image-modal>
+            <div id="results_container">
+                <section id="results_galery">
+                    <div class="galery_card" v-for="image of images">
+                        <img
+                            v-on:click="openModal"
+                            class="galery_image"
+                            :src="image.url"
+                            alt=""
+                            v-bind:url="image.url"
+                        />
+                        <p class="galery_caption">{{image.description}}</p>
+                    </div>
+                </section>
+            </div>
+            <div class="pagination">
+                <img
+                    class="pagination_button"
+                    v-if="prev"
+                    v-on:click="loadPrevious"
+                    src="./prev.png"
+                    alt="previous"
+                />
+                <img
+                    class="pagination_button"
+                    v-if="next"
+                    v-on:click="loadNext"
+                    src="./next.png"
+                    alt="next"
+                />
+            </div>
         </div>
     </body>
 </html>

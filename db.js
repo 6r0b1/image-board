@@ -12,20 +12,30 @@ const db = spicedPg(
 //  ++++++++++++++ END setup modules
 
 function getImages() {
-    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 6`);
+    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 12`);
     // .then((result) => console.log(result[0].id));
 }
 
 function getPrevImages(firstImageID) {
     return db.query(
-        `SELECT * FROM images WHERE id > $1 ORDER BY id DESC LIMIT 6`,
+        `SELECT *,
+    (SELECT id FROM images ORDER BY id desc LIMIT 1) AS "highestId" 
+    FROM images
+    WHERE id > $1
+    ORDER BY id ASC
+    LIMIT 12`,
         [firstImageID]
     );
 }
 
 function getNextImages(lastImageID) {
     return db.query(
-        `SELECT * FROM images WHERE id < $1 ORDER BY id DESC LIMIT 6`,
+        `SELECT *,
+    (SELECT id FROM images ORDER BY id ASC LIMIT 1) AS "lowestId" 
+    FROM images
+    WHERE id < $1
+    ORDER BY id DESC
+    LIMIT 12`,
         [lastImageID]
     );
 }
