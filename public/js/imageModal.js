@@ -14,7 +14,7 @@ const imageModal = {
     template: `
 <div class="modal">
     <div class="lightbox">
-        <img class="close_button" src="./close.png" @click="$emit('closed')">
+        <img class="close_button" src="/close.png" @click="$emit('closed')">
         <div class="overflow">
         <img class="lightbox_image" v-bind:src="url" v-bind:id="id" alt="title" />
         <h3>{{title}}</h3>

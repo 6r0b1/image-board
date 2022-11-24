@@ -42,11 +42,13 @@ h3 {
 }
 
 .input_button {
+    cursor: pointer;
     margin: 5px 10px;
     padding: 0;
 }
 
 .send_button {
+    cursor: pointer;
     margin: 5px 10px;
     padding: 0 5px;
 }
@@ -66,7 +68,7 @@ h3 {
 .galery_card {
     align-self: flex-start;
     width: 400px;
-    height: 310px;
+    height: 320px;
     margin: 5px;
     padding: 10px;
     border: 1px solid;
@@ -114,6 +116,7 @@ h3 {
 }
 
 .galery_image {
+    cursor: pointer;
     width: 380px;
     height: 250px;
     object-fit: cover;
@@ -133,12 +136,14 @@ h3 {
 }
 
 .pagination_button {
+    cursor: pointer;
     width: 35px;
     height: 35px;
     margin: 10px;
 }
 
 .close_button {
+    cursor: pointer;
     width: 30px;
     height: 30px;
     margin: 0 0 10px 0;

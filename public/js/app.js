@@ -2,6 +2,8 @@ import { imageModal } from "./imageModal.js";
 import { comments } from "./comments.js";
 import * as Vue from "./vue.js";
 
+location.pathname;
+
 Vue.createApp({
     components: {
         "image-modal": imageModal,
@@ -27,7 +29,7 @@ Vue.createApp({
             modalTitle: "",
             modalDescription: "",
             prev: false,
-            next: true,
+            next: false,
             preventScroll: "",
         };
     },
@@ -44,12 +46,12 @@ Vue.createApp({
             }
             this.modal = this.modalID;
             this.preventScroll = "prevent_scroll";
-            // history.pushState(null, "", `/image/${this.modalID}`);
+            history.pushState(null, "", `/image/${this.modalID}`);
         },
         closeModal: function (e) {
             this.modal = false;
             this.preventScroll = "";
-            // history.pushState(null, "", `/`);
+            history.pushState(null, "", `/`);
         },
         uploadImage: function (e) {
             e.preventDefault();
@@ -63,6 +65,11 @@ Vue.createApp({
                     .then((res) => res.json())
                     .then((images) => {
                         this.images = images;
+                        if (
+                            images[images.length - 1].id !== images[0].lowestId
+                        ) {
+                            this.next = true;
+                        }
                     });
             });
         },
@@ -92,11 +99,21 @@ Vue.createApp({
                 });
         },
     },
+    created() {
+        window.addEventListener("popstate", function (e) {
+            console.log(location.pathname);
+        });
+    },
     mounted() {
         fetch("/images")
             .then((res) => res.json())
             .then((images) => {
                 this.images = images;
+                if (images[images.length - 1].id !== images[0].lowestId) {
+                    this.next = true;
+                }
+                history.pushState(null, "", `/`);
+                console.log(location.pathname);
             });
     },
 }).mount("#main");

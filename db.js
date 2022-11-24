@@ -12,7 +12,11 @@ const db = spicedPg(
 //  ++++++++++++++ END setup modules
 
 function getImages() {
-    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 12`);
+    return db.query(`SELECT *,
+    (SELECT id FROM images ORDER BY id ASC LIMIT 1) AS "lowestId" 
+    FROM images 
+    ORDER BY id DESC 
+    LIMIT 12`);
     // .then((result) => console.log(result[0].id));
 }
 
