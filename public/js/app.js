@@ -2,8 +2,6 @@ import { imageModal } from "./imageModal.js";
 import { comments } from "./comments.js";
 import * as Vue from "./vue.js";
 
-location.pathname;
-
 Vue.createApp({
     components: {
         "image-modal": imageModal,
@@ -23,13 +21,17 @@ Vue.createApp({
             firstName: "",
             url: "",
             count: 0,
+            // display/hide modal
             modal: false,
+            // give data to modal
             modalID: "",
             modalURL: "",
             modalTitle: "",
             modalDescription: "",
+            // display/hide pagination
             prev: false,
             next: false,
+            // prevent background scrolling on open modal
             preventScroll: "",
         };
     },
@@ -55,16 +57,18 @@ Vue.createApp({
         },
         uploadImage: function (e) {
             e.preventDefault();
+            // get data from form & put in formdata to use in multi part stream
             const upload = document.querySelector("#upload-form");
             const formData = new FormData(upload);
             fetch("/images", {
                 method: "POST",
-                body: formData,
+                body: formData, // this to get formdata to server.js at post /images
             }).then(() => {
                 fetch("/images")
                     .then((res) => res.json())
                     .then((images) => {
                         this.images = images;
+                        // check if pagination should be shown
                         if (
                             images[images.length - 1].id !== images[0].lowestId
                         ) {
@@ -100,9 +104,8 @@ Vue.createApp({
         },
     },
     created() {
-        window.addEventListener("popstate", function (e) {
-            console.log(location.pathname);
-        });
+        // listen to browser navigation
+        window.addEventListener("popstate", function (e) {});
     },
     mounted() {
         fetch("/images")
@@ -112,8 +115,10 @@ Vue.createApp({
                 if (images[images.length - 1].id !== images[0].lowestId) {
                     this.next = true;
                 }
-                history.pushState(null, "", `/`);
                 console.log(location.pathname);
+                // to open modal on request check pathname for ID, fetch image data by ID
+                // set this.modalXY to image data and modal to the id
+                history.pushState(null, "", `/`);
             });
     },
 }).mount("#main");

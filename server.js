@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const { PORT = 8080 } = process.env;
-const { uploader, awsUpload } = require("./middleware");
+const { uploader } = require("./middleware");
 const fs = require("fs");
 
 // Setup database
@@ -32,23 +32,31 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 
+// log routs
+
+app.use((req, res, next) => {
+    console.log("---------------------");
+    console.log("req.url:", req.url);
+    console.log("req.method:", req.method);
+    console.log("req.session:", req.session);
+    console.log("---------------------");
+    next();
+});
+
 // Routs
 
+// Get images for one results page, send them as json --------------------------- get/post images
 app.get("/images", (req, res) => {
     getImages().then((result) => {
-        res.json(result.rows);
+        res.json(result.rows); // this to send json to fetch
     });
 });
 
+// posting image
 app.post("/images", uploader.single("image"), (req, res) => {
-    console.log(req);
     const { filename, mimetype, size, path } = req.file;
 
-    // document.querySelector("#upload-form").image.files[0];
-
-    // awsUpload(filename, mimetype, size, path)
-
-    const promise = s3
+    const promise = s3 // this to send to aws, different for other cloud storage
         .putObject({
             Bucket: "spicedling",
             ACL: "public-read",
@@ -74,13 +82,7 @@ app.post("/images", uploader.single("image"), (req, res) => {
         });
 });
 
-app.get("/images/:image_id", (req, res) => {
-    getCommentsByImageId(req.params.image_id).then((result) => {
-        console.log(result);
-        res.json(result.rows);
-    });
-});
-
+// Get images for nex/prev results page ----------------------------------------- get more images
 app.get("/prev/:firstImageID", (req, res) => {
     let firstID = req.params.firstImageID;
     console.log(firstID);
@@ -96,14 +98,23 @@ app.get("/next/:lastImageID", (req, res) => {
     });
 });
 
+// get comments for one specific image ------------------------------------------ get/post comments
+app.get("/images/:image_id", (req, res) => {
+    getCommentsByImageId(req.params.image_id).then((result) => {
+        console.log(result);
+        res.json(result.rows); // this to send json to fetch
+    });
+});
+
 app.post("/comments", (req, res) => {
     let comment = req.body;
     addComment(comment).then((result) => {
         console.log(result);
-        res.json(result.rows[0]);
+        res.json(result.rows[0]); // this to send json (actual new entry only) to fetch
     });
 });
 
+// get index.html --------------------------------------------------------------- initial request to home and sending index.html
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });

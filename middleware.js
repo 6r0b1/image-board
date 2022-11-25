@@ -4,7 +4,7 @@ const path = require("path");
 require("dotenv").config();
 const fs = require("fs");
 
-// Setup image upload
+// Setup image upload using multer for getting data to backend
 
 const storage = multer.diskStorage({
     destination: path.join(__dirname, "uploads"),
@@ -24,23 +24,23 @@ module.exports.uploader = multer({
     },
 });
 
-// Setup S3
+// Setup S3 --- unused
 
-const aws = require("aws-sdk");
+// const aws = require("aws-sdk");
 
-const s3 = new aws.S3({
-    accessKeyId: process.env.AWS_KEY,
-    secretAccessKey: process.env.AWS_SECRET,
-});
+// const s3 = new aws.S3({
+//     accessKeyId: process.env.AWS_KEY,
+//     secretAccessKey: process.env.AWS_SECRET,
+// });
 
-module.exports.awsUpload = function (filename, path, mimetype, size) {
-    console.log(path);
-    s3.putObject({
-        Bucket: "spicedling",
-        ACL: "public-read",
-        Key: filename,
-        Body: fs.createReadStream(path),
-        ContentType: mimetype,
-        ContentLength: size,
-    });
-};
+// module.exports.awsUpload = function (filename, path, mimetype, size) {
+//     console.log(path);
+//     s3.putObject({
+//         Bucket: "spicedling",
+//         ACL: "public-read",
+//         Key: filename,
+//         Body: fs.createReadStream(path),
+//         ContentType: mimetype,
+//         ContentLength: size,
+//     });
+// };

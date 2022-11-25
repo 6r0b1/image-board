@@ -12,11 +12,13 @@ const comments = {
             e.preventDefault();
             console.log(e.target[0].value);
             const form = e.currentTarget;
+            // set up data to send with the fetch, get it from the form
             const body = {
                 image_id: this.image_id,
                 commenter: form.querySelector('[name="commenter"]').value,
                 comment: form.querySelector('[name="comment"]').value,
             };
+            // send to server with header application/json!
             fetch("/comments", {
                 method: "post",
                 body: JSON.stringify(body),
